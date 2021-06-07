@@ -8,6 +8,8 @@ import android.os.Handler;
 
 public class JokesSplashActivity extends AppCompatActivity {
 
+    // allowing the launcher screen to display for 3 seconds
+
     public final int SPLASH_DISPLAY_LENGTH = 3000;
 
 
