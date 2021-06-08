@@ -6,6 +6,7 @@ import com.titusnangi.chucknorrisjokes.models.JokeModel;
 
 //This class is for single joke response
 public class JokeResponse {
+
     // Finding the joke object
 
     @SerializedName("result")

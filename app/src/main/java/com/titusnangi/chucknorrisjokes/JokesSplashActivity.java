@@ -24,7 +24,7 @@ public class JokesSplashActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                Intent myIntent = new Intent(JokesSplashActivity.this, MainActivity.class);
+                Intent myIntent = new Intent(JokesSplashActivity.this, JokeListActivity.class);
                 startActivity(myIntent);
                 finish();
             }

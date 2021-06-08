@@ -8,34 +8,39 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Service {
 
-     // configuring retrofit with the Gson converter and base_url
-    private static Retrofit.Builder retrofitBuilder =
-            new Retrofit.Builder()
-            .baseUrl(Credentials.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create());
-
 
 
     // implementing the retrofit singleton pattern that
-    // allows only instance of the class existing in the JVM
-    private static Retrofit sRetrofit = retrofitBuilder.build();
+   // allows only one instance of the class to exist in the JVM
+
+    private static Retrofit sRetrofit;
+    private static Service sService;
 
 
+
+    //configuring retrofit with the Gson converter and base_url
+
+    private Service() {
+        sRetrofit = new Retrofit.Builder()
+                .baseUrl(Credentials.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+    }
+
+    public static synchronized Service getService() {
+        if (sService == null) {
+            sService = new Service();
+        }
+
+        return sService;
+    }
 
     // interface
 
-    private static JokeApi sJokeApi = sRetrofit.create(JokeApi.class);
-
-
-
-    public JokeApi getJokeApi(){
-        return sJokeApi;
+    public JokeApi getApi() {
+        return sRetrofit.create(JokeApi.class);
     }
-
-
-
-
-
 
 
 }

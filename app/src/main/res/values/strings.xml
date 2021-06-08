@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ChuckNorrisJokes</string>
     <string name="norris_jokes">Norris Jokes</string>
+    <string name="testing_search_response">Testing Search Response</string>
 </resources>
