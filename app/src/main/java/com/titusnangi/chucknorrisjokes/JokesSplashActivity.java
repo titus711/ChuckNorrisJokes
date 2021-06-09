@@ -9,7 +9,6 @@ import android.os.Handler;
 public class JokesSplashActivity extends AppCompatActivity {
 
     // allowing the launcher screen to display for 3 seconds
-
     public final int SPLASH_DISPLAY_LENGTH = 3000;
 
 
@@ -21,7 +20,6 @@ public class JokesSplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
 
             // Using handler with postDelayed calling runnable run method
-
             @Override
             public void run() {
                 Intent myIntent = new Intent(JokesSplashActivity.this, JokeListActivity.class);

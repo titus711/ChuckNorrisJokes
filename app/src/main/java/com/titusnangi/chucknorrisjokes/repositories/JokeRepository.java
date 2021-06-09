@@ -11,17 +11,12 @@ import java.util.List;
 public class JokeRepository {
     //this class is used as the repository
 
-
-
     //creating a singleton
-
     private static JokeRepository instance;
 
 
     //creating an instance of the JokeApiClient class
-
     private  JokeApiClient jokeApiClient;
-
 
 
     public static JokeRepository getInstance() {
@@ -32,13 +27,11 @@ public class JokeRepository {
     }
 
     //constructor
-
     private JokeRepository() {
         jokeApiClient = JokeApiClient.getInstance();
     }
 
     //getter
-
     public MutableLiveData<List<JokeModel>> getJokes() {
         return jokeApiClient.getJokes();
     }

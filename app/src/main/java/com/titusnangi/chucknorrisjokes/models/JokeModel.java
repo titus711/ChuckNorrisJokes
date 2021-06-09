@@ -7,9 +7,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-//this is the root model class that is mapping the JSON objects into Java objects
 public class JokeModel {
-
+    //this is the root model class that is mapping the JSON objects into Java objects
 
 
     @SerializedName("total")

@@ -13,12 +13,10 @@ public class JokeListViewModel extends ViewModel {
 
 
     //creating an instance of the repository
-
     private JokeRepository jokeRepository;
 
 
     //constructor
-
     public JokeListViewModel() {
         jokeRepository = JokeRepository.getInstance();
 

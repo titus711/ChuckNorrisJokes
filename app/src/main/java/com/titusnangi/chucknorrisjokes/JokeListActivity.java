@@ -26,11 +26,9 @@ import retrofit2.Response;
 public class JokeListActivity extends AppCompatActivity {
 
     //created a button for testing the search response with the help of the Logcat
-
     Button myButton;
 
     //ViewModel
-
     private JokeListViewModel jokeListViewModel;
 
 
@@ -43,7 +41,6 @@ public class JokeListActivity extends AppCompatActivity {
 
 
         // creating an instance of the viewmodel
-
         jokeListViewModel = new ViewModelProvider(this).get(JokeListViewModel.class);
 
 
@@ -61,7 +58,6 @@ public class JokeListActivity extends AppCompatActivity {
     }
 
     // Testing the search response, retrieving results for the joke value, id and category
-
     public void retrieveJson(String query) {
         Call<JokeModel> call = Service.getService().getApi().getResultList(query);
         call.enqueue(new Callback<JokeModel>() {

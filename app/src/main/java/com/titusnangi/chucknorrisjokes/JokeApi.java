@@ -9,9 +9,8 @@ import retrofit2.http.Query;
 
 public interface JokeApi {
 
-    //search for movies
+    //query search for movies
     //https://api.chucknorris.io/jokes/search?query={query}
-
     @GET("jokes/search")
     Call<JokeModel> getResultList(
             @Query("query") String query

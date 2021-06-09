@@ -7,9 +7,10 @@ import com.titusnangi.chucknorrisjokes.models.JokeModel;
 
 import java.util.List;
 
-//This class is for displaying multiple jokes (Jokes List)
-//- searching for jokes matching keyword
+
 public class JokeSearchResponse {
+    //This class is for displaying multiple jokes (Jokes List)
+    //- searching for jokes matching keyword
     @SerializedName("total")
     @Expose()
     private int totalJokes;

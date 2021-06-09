@@ -4,9 +4,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.titusnangi.chucknorrisjokes.models.JokeModel;
 
-//This class is for single joke response
 public class JokeResponse {
-
+    //This class is for single joke response
     // Finding the joke object
 
     @SerializedName("result")

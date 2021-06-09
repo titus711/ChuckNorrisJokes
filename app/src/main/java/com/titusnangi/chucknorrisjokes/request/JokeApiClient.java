@@ -13,11 +13,9 @@ public class JokeApiClient {
 
 
     //Livedata
-
     private MutableLiveData<List<JokeModel>> mJokes;
 
     //singleton pattern
-
     private static JokeApiClient instance;
 
 
@@ -34,6 +32,7 @@ public class JokeApiClient {
         mJokes = new MutableLiveData<>();
     }
 
+    //getter
     public MutableLiveData<List<JokeModel>> getJokes() {
         return mJokes;
     }
