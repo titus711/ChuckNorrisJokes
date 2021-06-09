@@ -11,28 +11,21 @@ import java.util.List;
 public class JokeSearchResponse {
     //This class is for displaying multiple jokes (Jokes List)
     //- searching for jokes matching keyword
-    @SerializedName("total")
-    @Expose()
-    private int totalJokes;
+
 
     @SerializedName("result")
-    @Expose()
+    @Expose
     private List<JokeModel> jokes;
 
-    public int getTotalJokes() {
-        return totalJokes;
-    }
-
-    public List<JokeModel> getJokes() {
+    public List<JokeModel> getJokes(){
         return jokes;
-
     }
+
 
     @Override
     public String toString() {
         return "JokeSearchResponse{" +
-                "totalJokes=" + totalJokes +
-                ", jokes=" + jokes +
+                "jokes=" + jokes +
                 '}';
     }
 }

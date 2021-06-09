@@ -10,28 +10,28 @@ import java.util.List;
 public class JokeModel {
     //this is the root model class that is mapping the JSON objects into Java objects
 
+    private String value;
+    private String url;
+    private String id;
 
-    @SerializedName("total")
-    @Expose
-    private int total;
-
-    @SerializedName("result")
-    @Expose
-    private List<Result> mResultList;
-
-    public int getTotal() {
-        return total;
+    public JokeModel(String value, String url, String id) {
+        this.value = value;
+        this.url = url;
+        this.id = id;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public String getValue() {
+        return value;
     }
 
-    public List<Result> getResultList() {
-        return mResultList;
+    public String getUrl() {
+        return url;
     }
 
-    public void setResultList(List<Result> resultList) {
-        mResultList = resultList;
+    public String getId() {
+        return id;
     }
+
+
+
 }

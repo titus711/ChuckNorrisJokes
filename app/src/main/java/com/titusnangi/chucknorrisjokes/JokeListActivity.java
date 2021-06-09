@@ -12,6 +12,7 @@ import android.widget.Button;
 import com.titusnangi.chucknorrisjokes.models.JokeModel;
 import com.titusnangi.chucknorrisjokes.models.Result;
 import com.titusnangi.chucknorrisjokes.request.Service;
+import com.titusnangi.chucknorrisjokes.response.JokeSearchResponse;
 import com.titusnangi.chucknorrisjokes.viewmodels.JokeListViewModel;
 
 import java.io.IOException;
@@ -32,12 +33,20 @@ public class JokeListActivity extends AppCompatActivity {
     private JokeListViewModel jokeListViewModel;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         myButton = (Button) findViewById(R.id.testing_button);
+
+        myButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getRetrofitResponse();
+            }
+        });
 
 
         // creating an instance of the viewmodel
@@ -57,45 +66,48 @@ public class JokeListActivity extends AppCompatActivity {
         });
     }
 
-    // Testing the search response, retrieving results for the joke value, id and category
-    public void retrieveJson(String query) {
-        Call<JokeModel> call = Service.getService().getApi().getResultList(query);
-        call.enqueue(new Callback<JokeModel>() {
+
+    private void getRetrofitResponse() {
+
+        JokeApi jokeApi = Service.getJokeApi();
+
+        Call<JokeSearchResponse> responseCall = jokeApi
+                .searchMovie("Chuck Norris");
+
+        responseCall.enqueue(new Callback<JokeSearchResponse>() {
             @Override
-            public void onResponse(Call<JokeModel> call, Response<JokeModel> response) {
-                if (response.isSuccessful() && response.body().getResultList() != null) {
+            public void onResponse(Call<JokeSearchResponse> call, Response<JokeSearchResponse> response) {
+                if (response.code() == 200){
+                    Log.v("Tag","the response" + response.body().toString());
+
+                    List<JokeModel> jokes = new ArrayList<>(response.body().getJokes());
+
+                    for (JokeModel joke: jokes ){
+                        Log.v("Tag" , "The id " + joke.getId());
+                        Log.v("Tag" , "The value " + joke.getValue());
+                        Log.v("Tag" , "The url " + joke.getUrl());
 
 
-                    List<Result> jokes = new ArrayList<>(response.body().getResultList());
-                    Log.v("Tag", "The response " + response.body().toString());
-
-
-                    for (Result joke : jokes) {
-                        Log.v("Tag", "The searched joke is: " + joke.getValue().toString());
-                        Log.v("Tag", "The category is " + joke.getCategories().toString());
-                        Log.v("Tag", "The id is " + joke.getId().toString());
                     }
+                }
 
-                } else {
-
+                else {
                     try {
-                        Log.v("Tag", "Error " + response.errorBody().string());
-
+                        Log.v("Tag", "Error" + response.errorBody().string());
                     } catch (IOException e) {
-
                         e.printStackTrace();
                     }
-
                 }
+
+
 
             }
 
             @Override
-            public void onFailure(Call<JokeModel> call, Throwable t) {
+            public void onFailure(Call<JokeSearchResponse> call, Throwable t) {
 
             }
         });
-
     }
 
 }
