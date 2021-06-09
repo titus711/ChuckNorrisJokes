@@ -35,4 +35,9 @@ public class JokeRepository {
     public MutableLiveData<List<JokeModel>> getJokes() {
         return jokeApiClient.getJokes();
     }
+
+    // calling the searchJokesApi method in the repository class and its declared in the JokeApiClient class
+    public void searchJokesApi(String query){
+        jokeApiClient.searchJokesApi(query);
+    }
 }

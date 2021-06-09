@@ -27,5 +27,11 @@ public class JokeListViewModel extends ViewModel {
         return jokeRepository.getJokes();
     }
 
+    // calling the searchJokeApi method within the view_model class and its declared in the JokeRepository class
+    public void searchJokesApi(String query){
+        jokeRepository.searchJokesApi(query);
+    }
+
+
 
 }

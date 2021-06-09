@@ -29,7 +29,6 @@ public class JokeApiClient {
     //Livedata
     private MutableLiveData<List<JokeModel>> mJokes;
 
-
     //singleton pattern
     private static JokeApiClient instance;
 
@@ -55,14 +54,14 @@ public class JokeApiClient {
         return mJokes;
     }
 
-    //this method will be called in various classes that is the ViewModel, repository, UI controller
+    //calling the searchJokesApi method in the JokeApiClient, and
+    //this will be called in the repository, view-model and ui controller classes
     public void searchJokesApi(String query) {
         if (retrieveJokesRunnable != null) {
             retrieveJokesRunnable = null;
         }
 
         retrieveJokesRunnable = new RetrieveJokesRunnable(query);
-
 
         final Future myHandler = AppExecutors.getInstance().networkIO().submit(retrieveJokesRunnable);
 
@@ -74,9 +73,9 @@ public class JokeApiClient {
                 myHandler.cancel(true);
 
             }
-            //timeout
-        }, 5000, TimeUnit.MICROSECONDS);
 
+            //timeout
+        }, 3000, TimeUnit.MILLISECONDS);
 
     }
 
@@ -85,7 +84,6 @@ public class JokeApiClient {
 
         private String query;
         boolean cancelRequest;
-
 
         public RetrieveJokesRunnable(String query) {
             this.query = query;
