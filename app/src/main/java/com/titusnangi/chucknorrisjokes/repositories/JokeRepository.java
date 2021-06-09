@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.titusnangi.chucknorrisjokes.models.JokeModel;
+import com.titusnangi.chucknorrisjokes.request.JokeApiClient;
 
 import java.util.List;
 
@@ -17,9 +18,10 @@ public class JokeRepository {
     private static JokeRepository instance;
 
 
-    // moving the livedata to the repository from the viewmodel
+    //creating an instance of the JokeApiClient class
 
-    private MutableLiveData<List<JokeModel>> mJokes;
+    private  JokeApiClient jokeApiClient;
+
 
 
     public static JokeRepository getInstance() {
@@ -32,12 +34,12 @@ public class JokeRepository {
     //constructor
 
     private JokeRepository() {
-        mJokes = new MutableLiveData<>();
+        jokeApiClient = JokeApiClient.getInstance();
     }
 
     //getter
 
     public MutableLiveData<List<JokeModel>> getJokes() {
-        return mJokes;
+        return jokeApiClient.getJokes();
     }
 }
