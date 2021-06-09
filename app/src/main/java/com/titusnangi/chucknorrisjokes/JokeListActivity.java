@@ -40,7 +40,7 @@ public class JokeListActivity extends AppCompatActivity {
 
                 //method being called to test the search response by clicking the button above
 
-                retrieveJson("Food");
+                retrieveJson("Chuck");
             }
         });
     }
@@ -53,6 +53,8 @@ public class JokeListActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<JokeModel> call, Response<JokeModel> response) {
                 if (response.isSuccessful() && response.body().getResultList() != null) {
+
+
 
 
                     List<Result> jokes = new ArrayList<>(response.body().getResultList());
