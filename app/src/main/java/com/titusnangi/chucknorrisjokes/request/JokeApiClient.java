@@ -20,7 +20,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class JokeApiClient {
-    List<Result> list = new ArrayList<>();
 
 
     //moving the live data from the repository class into
@@ -30,8 +29,12 @@ public class JokeApiClient {
     //Livedata
     private MutableLiveData<List<JokeModel>> mJokes;
 
+
     //singleton pattern
     private static JokeApiClient instance;
+
+    //make a runnable request
+    private RetrieveJokesRunnable retrieveJokesRunnable;
 
 
     public static JokeApiClient getInstance() {
@@ -52,14 +55,23 @@ public class JokeApiClient {
         return mJokes;
     }
 
-    public void searchJokesApi() {
-        //final Future myHandler = AppExecutors.getInstance().networkIO().submit();
+    //this method will be called in various classes that is the ViewModel, repository, UI controller
+    public void searchJokesApi(String query) {
+        if (retrieveJokesRunnable != null) {
+            retrieveJokesRunnable = null;
+        }
+
+        retrieveJokesRunnable = new RetrieveJokesRunnable(query);
+
+
+        final Future myHandler = AppExecutors.getInstance().networkIO().submit(retrieveJokesRunnable);
 
         AppExecutors.getInstance().networkIO().schedule(new Runnable() {
             @Override
             public void run() {
-                //thread for cancelling data from the api using retrofit
-                //myHandler.cancel(true);
+                //thread for cancelling the retrofit call
+
+                myHandler.cancel(true);
 
             }
             //timeout
@@ -84,11 +96,38 @@ public class JokeApiClient {
         public void run() {
             //getting the response objects
 
+            try {
+                Response response = getJokes(query).execute();
+
+                if (cancelRequest) {
+                    return;
+                }
+
+                if (response.code() == 200) {
+                    List<JokeModel> list = new ArrayList<>(((JokeSearchResponse) response.body()).getJokes());
+
+                    //Sending data to live data
+                    //using the postValue method for background thread
+                    mJokes.postValue(list);
+                } else {
+                    String error = response.errorBody().string();
+                    Log.v("Tag", "Error " + error);
+                    mJokes.postValue(null);
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                mJokes.postValue(null);
+            }
+
 
         }
 
-
-        // search method/ query
+        // search method/query
+        private Call<JokeSearchResponse> getJokes(String query) {
+            return Service.getJokeApi().searchMovie(query);
+        }
 
 
         private void cancelRequest() {
