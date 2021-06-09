@@ -2,9 +2,12 @@ package com.titusnangi.chucknorrisjokes.request;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.titusnangi.chucknorrisjokes.AppExecutors;
 import com.titusnangi.chucknorrisjokes.models.JokeModel;
 
 import java.util.List;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 public class JokeApiClient {
 
@@ -35,5 +38,24 @@ public class JokeApiClient {
     //getter
     public MutableLiveData<List<JokeModel>> getJokes() {
         return mJokes;
+    }
+
+    public void searchJokesApi(){
+        final Future myHandler = AppExecutors.getInstance().networkIO().submit(new Runnable() {
+            @Override
+            public void run() {
+                //thread for retrieving data from the api using retrofit
+            }
+        });
+
+        AppExecutors.getInstance().networkIO().schedule(new Runnable() {
+            @Override
+            public void run() {
+                //thread for cancelling data from the api using retrofit
+                myHandler.cancel(true);
+
+            }
+            //timeout
+        },5000, TimeUnit.MICROSECONDS);
     }
 }
