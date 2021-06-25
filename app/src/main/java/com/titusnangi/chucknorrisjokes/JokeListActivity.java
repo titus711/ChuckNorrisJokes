@@ -1,6 +1,7 @@
 package com.titusnangi.chucknorrisjokes;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -34,11 +35,12 @@ public class JokeListActivity extends AppCompatActivity implements OnJokeListene
     //creating a recyclerView to add joke items for scrolling
     private RecyclerView recyclerview;
 
+
+    //Adapter
     private JokeRecyclerView jokeRecyclerAdapter;
 
     //ViewModel
     private JokeListViewModel jokeListViewModel;
-
 
 
     @Override
@@ -50,56 +52,50 @@ public class JokeListActivity extends AppCompatActivity implements OnJokeListene
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Adding a SearchView to get input from the user
+        setUpSearchView();
 
 
+        //Referencing the RecyclerView
         recyclerview = findViewById(R.id.recyclerView);
 
         // creating an instance of the view-model
         jokeListViewModel = new ViewModelProvider(this).get(JokeListViewModel.class);
 
-
+        //calling the recyclerView method
+        configureRecyclerView();
 
         // calling the observers
         ObserveAnyChange();
 
-        //calling the recyclerView method
-        configureRecyclerView();
-
-
-
-
-        //calling the search method containing the query to be searched
-        searchJokesApi("Chuck Norris");
-
-
     }
+
 
     //Observing any data change
     private void ObserveAnyChange() {
         jokeListViewModel.getJokes().observe(this, new Observer<List<JokeModel>>() {
             @Override
             public void onChanged(List<JokeModel> jokeModels) {
-                if (jokeModels != null){
-                    for (JokeModel jokeModel: jokeModels){
 
+                //Observing for any data changes
+                if (jokeModels != null) {
+                    for (JokeModel jokeModel : jokeModels) {
+
+                        jokeRecyclerAdapter.setJokes(jokeModels);
                         //Get the data in log
                         Log.v("Tag", "onChanged: " + jokeModel.getId());
 
-
-                        jokeRecyclerAdapter.setJokes(jokeModels);
-
-
                     }
                 }
-
-
             }
         });
     }
 
-    //calling the searchJokesApi method in the main activity and it declared in the view-model class
-    private void searchJokesApi(String query){
-        jokeListViewModel.searchJokesApi(query);
+    //initializing the recyclerview and adding data to it
+    private void configureRecyclerView() {
+        jokeRecyclerAdapter = new JokeRecyclerView(this);
+        recyclerview.setAdapter(jokeRecyclerAdapter);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
@@ -108,11 +104,22 @@ public class JokeListActivity extends AppCompatActivity implements OnJokeListene
     }
 
 
-    //initializing the recyclerview and adding data to it
-    private void configureRecyclerView(){
-        jokeRecyclerAdapter = new JokeRecyclerView(this);
-        recyclerview.setAdapter(jokeRecyclerAdapter);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+    //Get data from searchView and query the api to get the results (Jokes)
+    private void setUpSearchView() {
+        final SearchView searchView = findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                jokeListViewModel.searchJokesApi(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
     }
 
 
