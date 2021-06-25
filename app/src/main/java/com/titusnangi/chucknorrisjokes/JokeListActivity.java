@@ -1,6 +1,7 @@
 package com.titusnangi.chucknorrisjokes;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -45,7 +46,13 @@ public class JokeListActivity extends AppCompatActivity implements OnJokeListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerview = findViewById(R.id.recycler_view);
+        //Adding a ToolBar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+
+        recyclerview = findViewById(R.id.recyclerView);
 
         // creating an instance of the view-model
         jokeListViewModel = new ViewModelProvider(this).get(JokeListViewModel.class);
