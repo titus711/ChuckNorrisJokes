@@ -3,12 +3,16 @@ package com.titusnangi.chucknorrisjokes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.titusnangi.chucknorrisjokes.adapters.JokeRecyclerView;
+import com.titusnangi.chucknorrisjokes.adapters.OnJokeListener;
 import com.titusnangi.chucknorrisjokes.models.JokeModel;
 import com.titusnangi.chucknorrisjokes.models.Result;
 import com.titusnangi.chucknorrisjokes.request.Service;
@@ -24,10 +28,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class JokeListActivity extends AppCompatActivity {
+public class JokeListActivity extends AppCompatActivity implements OnJokeListener {
 
-    //created a button for testing the search response with the help of the Logcat
-    Button myButton;
+    //creating a recyclerView to add joke items for scrolling
+    private RecyclerView recyclerview;
+
+    private JokeRecyclerView jokeRecyclerAdapter;
 
     //ViewModel
     private JokeListViewModel jokeListViewModel;
@@ -39,21 +45,24 @@ public class JokeListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myButton = (Button) findViewById(R.id.testing_button);
-
-        myButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchJokesApi("kick");
-            }
-        });
-
+        recyclerview = findViewById(R.id.recycler_view);
 
         // creating an instance of the view-model
         jokeListViewModel = new ViewModelProvider(this).get(JokeListViewModel.class);
 
+
+
         // calling the observers
         ObserveAnyChange();
+
+        //calling the recyclerView method
+        configureRecyclerView();
+
+
+
+
+        //calling the search method containing the query to be searched
+        searchJokesApi("Chuck Norris");
 
 
     }
@@ -70,6 +79,9 @@ public class JokeListActivity extends AppCompatActivity {
                         Log.v("Tag", "onChanged: " + jokeModel.getId());
 
 
+                        jokeRecyclerAdapter.setJokes(jokeModels);
+
+
                     }
                 }
 
@@ -83,7 +95,18 @@ public class JokeListActivity extends AppCompatActivity {
         jokeListViewModel.searchJokesApi(query);
     }
 
+    @Override
+    public void onJokeClick(int position) {
 
+    }
+
+
+    //initializing the recyclerview and adding data to it
+    private void configureRecyclerView(){
+        jokeRecyclerAdapter = new JokeRecyclerView(this);
+        recyclerview.setAdapter(jokeRecyclerAdapter);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+    }
 
 
 }

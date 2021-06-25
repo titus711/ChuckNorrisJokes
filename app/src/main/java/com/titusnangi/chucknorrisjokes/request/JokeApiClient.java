@@ -2,6 +2,7 @@ package com.titusnangi.chucknorrisjokes.request;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.titusnangi.chucknorrisjokes.AppExecutors;
@@ -75,7 +76,7 @@ public class JokeApiClient {
             }
 
             //timeout
-        }, 3000, TimeUnit.MILLISECONDS);
+        }, 5000, TimeUnit.MILLISECONDS);
 
     }
 
@@ -107,6 +108,7 @@ public class JokeApiClient {
                     //Sending data to live data
                     //using the postValue method for background thread
                     mJokes.postValue(list);
+
                 } else {
                     String error = response.errorBody().string();
                     Log.v("Tag", "Error " + error);
